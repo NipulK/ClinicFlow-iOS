@@ -4,8 +4,9 @@ struct OTPView: View {
     let phoneNumber: String
 
     @State private var otpCode: String = ""
-    @State private var secondsRemaining: Int = 165 // 02:45
+    @State private var secondsRemaining: Int = 165
     @State private var timer: Timer? = nil
+    @State private var navigateToDashboard: Bool = false
     @Environment(\.dismiss) private var dismiss
 
     private let navyColor = Color(red: 0.13, green: 0.27, blue: 0.40)
@@ -81,9 +82,7 @@ struct OTPView: View {
                         Text("Code expires in \(formattedTime)")
                             .font(.system(size: 14))
                             .foregroundColor(.secondary)
-
                         Spacer()
-
                         Button("Resend Code") {
                             secondsRemaining = 165
                             startTimer()
@@ -97,7 +96,7 @@ struct OTPView: View {
 
                 // Verify & Continue Button
                 Button {
-                    // Handle OTP verification
+                    navigateToDashboard = true
                 } label: {
                     Text("Verify & Continue")
                         .font(.system(size: 17, weight: .semibold))
@@ -147,22 +146,18 @@ struct OTPView: View {
                     HStack(spacing: 4) {
                         Text("Don't have an account?")
                             .foregroundColor(.secondary)
-                        Button("Sign Up") {
-                            // Handle sign up
-                        }
-                        .fontWeight(.semibold)
-                        .foregroundColor(navyColor)
+                        Button("Sign Up") {}
+                            .fontWeight(.semibold)
+                            .foregroundColor(navyColor)
                     }
                     .font(.system(size: 15))
 
                     HStack(spacing: 4) {
                         Text("Need assistance?")
                             .foregroundColor(.secondary)
-                        Button("Contact reception") {
-                            // Handle contact
-                        }
-                        .fontWeight(.semibold)
-                        .foregroundColor(navyColor)
+                        Button("Contact reception") {}
+                            .fontWeight(.semibold)
+                            .foregroundColor(navyColor)
                     }
                     .font(.system(size: 15))
                 }
@@ -173,6 +168,9 @@ struct OTPView: View {
         .navigationTitle("Verify OTP")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
+        .navigationDestination(isPresented: $navigateToDashboard) {
+            DashboardView()
+        }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
