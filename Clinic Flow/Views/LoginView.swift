@@ -3,6 +3,7 @@ import SwiftUI
 struct LoginView: View {
     @State private var phoneNumber: String = ""
     @State private var navigateToOTP: Bool = false
+    @State private var navigateToSignUp: Bool = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -97,7 +98,7 @@ struct LoginView: View {
                             Text("Don't have an account?")
                                 .foregroundColor(.secondary)
                             Button("Sign Up") {
-                                // Handle sign up
+                                navigateToSignUp = true
                             }
                             .fontWeight(.semibold)
                             .foregroundColor(Color(red: 0.13, green: 0.27, blue: 0.40))
@@ -124,6 +125,9 @@ struct LoginView: View {
             .navigationBarBackButtonHidden(true)
             .navigationDestination(isPresented: $navigateToOTP) {
                 OTPView(phoneNumber: phoneNumber)
+            }
+            .navigationDestination(isPresented: $navigateToSignUp) {
+                SignUpView()
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
