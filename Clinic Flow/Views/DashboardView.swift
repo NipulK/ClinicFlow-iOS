@@ -142,17 +142,15 @@ struct DashboardView: View {
 
     // MARK: - Home Tab
     var homeTab: some View {
-        NavigationStack {
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    headerSection
-                    mainContent
-                }
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 0) {
+                headerSection
+                mainContent
             }
-            .ignoresSafeArea(edges: .top)
-            .navigationDestination(isPresented: $navigateToQueueStatus) {
-                QueueStatusView()
-            }
+        }
+        .ignoresSafeArea(edges: .top)
+        .fullScreenCover(isPresented: $navigateToQueueStatus) {
+            QueueStatusView(isPresented: $navigateToQueueStatus)
         }
         .background(Color(.systemGroupedBackground))
         .overlay(alignment: .bottom) {
