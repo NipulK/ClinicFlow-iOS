@@ -12,7 +12,7 @@ struct ChecklistItem: Identifiable {
 // MARK: - QueueStatusView
 
 struct QueueStatusView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Binding var isPresented: Bool
     
     @State private var checklistItems: [ChecklistItem] = [
         ChecklistItem(title: "Medical History", subtitle: "Have your medical records accessible", isChecked: true),
@@ -53,7 +53,7 @@ struct QueueStatusView: View {
     var navigationBar: some View {
         HStack {
             Button {
-                dismiss()
+                isPresented = false
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "chevron.left")
@@ -417,7 +417,7 @@ struct QueueStatusView: View {
             // Cancel Queue and Skip to Next
             HStack(spacing: 12) {
                 Button {
-                    dismiss()
+                    isPresented = false
                 } label: {
                     Text("Cancel Queue")
                         .font(.system(size: 15, weight: .semibold))
@@ -461,5 +461,5 @@ struct QueueStatusView: View {
 }
 
 #Preview {
-    QueueStatusView()
+    QueueStatusView(isPresented: .constant(true))
 }
