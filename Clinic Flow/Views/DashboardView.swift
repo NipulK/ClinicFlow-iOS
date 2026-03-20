@@ -71,6 +71,8 @@ struct DashboardView: View {
     @State private var showAppointmentDetails: Bool = false
     @State private var showRescheduleAppointment: Bool = false
     @State private var showNavigation: Bool = false
+    @State private var showQueueStatus: Bool = false
+    @State private var showRoomNavigation: Bool = false
 
     let appointments: [Appointment] = [
         Appointment(month: "FEB", day: 28, dayName: "Thu",
@@ -447,13 +449,20 @@ struct DashboardView: View {
             .background(Color.white.opacity(0.1))
             .cornerRadius(10)
 
-            Button("View Queue Details") {}
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundColor(navy)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 13)
-                .background(Color.white)
-                .cornerRadius(10)
+            Button(action: {
+                showQueueStatus = true
+            }) {
+                Text("View Queue Details")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(navy)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 13)
+                    .background(Color.white)
+                    .cornerRadius(10)
+            }
+            .navigationDestination(isPresented: $showQueueStatus) {
+                QueueStatusView()
+            }
         }
         .padding(16)
         .background(navy)
@@ -523,6 +532,20 @@ struct DashboardView: View {
                                         showNavigation = false
                                     })
                                 }
+                            Button(action: {
+                                showRoomNavigation = true
+                            }) {
+                                Text("Navigate")
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 6)
+                                    .background(navy)
+                                    .cornerRadius(8)
+                            }
+                            .navigationDestination(isPresented: $showRoomNavigation) {
+                                RoomNavigationView()
+                            }
                         }
                     }
                     .padding(.vertical, 10)
